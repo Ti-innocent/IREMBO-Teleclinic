@@ -1,4 +1,3 @@
-
 -- Task 1 — stg_consultations_fixed.sql (timezone fix)
 
 {{ config(materialized='view') }}
@@ -21,7 +20,7 @@ cleaned AS (
 
         consultation_started_at,
 
-        -- Detect UTC+2 timestamps (string contains offset)
+        -- Detect UTC+2 timestamps
         CASE
             WHEN position(consultation_started_at, '+02') > 0
                 THEN toTimeZone(parseDateTimeBestEffort(consultation_started_at), 'UTC')
@@ -58,7 +57,6 @@ final AS (
         CASE
             WHEN dateDiff('minute', created_at_utc, started_at_utc) < 0 THEN NULL
             WHEN dateDiff('minute', created_at_utc, started_at_utc) > 240 THEN NULL
-            -- threshold: >4 hours considered implausible for teleconsultation
             ELSE dateDiff('minute', created_at_utc, started_at_utc)
         END AS wait_time_minutes
 
