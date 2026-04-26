@@ -86,7 +86,7 @@ sources:
             description: "Timestamp when consultation started"
 
 
-Task 2 — Referral Models
+-- Task 2 — Referral Models
 -- 1. int_referrals_classified.sql
 
 {{ config(materialized='view') }}
@@ -220,7 +220,7 @@ models:
 
     columns:
       - name: consultation_id
-        description: "Primary key — one row per consultation"
+        description: "Primary key (one row per consultation)"
         tests:
           - unique
           - not_null
@@ -266,8 +266,9 @@ models:
         tests:
           - not_null
 
-Custom Test — anomaly detection
--- 📄 tests/test_referral_rate_spike.sql
+-- Custom Test — anomaly detection
+-- tests/test_referral_rate_spike.sql
+    
 WITH rates AS (
 
     SELECT
@@ -287,23 +288,3 @@ WHERE prev_rate IS NOT NULL
 SELECT *
 FROM {{ ref('stg_consultations_fixed') }}
 WHERE wait_time_minutes < 0
-
---README (short version you can submit)
-"""Assumptions:
-- consultation_started_at may contain mixed timezone formats (UTC and UTC+2 string offsets)
-- referral_issued and referral_requested are boolean (0/1)
-- one row per consultation_id in staging models
-
-Key decisions:
-- Standardized all timestamps to UTC before calculating wait times
-- Defined valid wait time range as 0–240 minutes
-- Separated patient-requested and doctor-issued referrals for metric clarity
-- Included "both" category in both aggregates to preserve counts
-
-Testing:
-- Added anomaly detection for month-over-month referral spikes
-- Validated no negative wait times after timezone correction
-- Enforced accepted values for referral classification
-
-AI usage:
-- Used AI for structuring SQL and refining logic, with manual validation and adjustments"""
