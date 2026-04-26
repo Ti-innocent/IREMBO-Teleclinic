@@ -1,5 +1,11 @@
 -- Task 1 — stg_consultations_fixed.sql (timezone fix)
-
+models/
+staging/
+stg_consultation_requests.sql
+stg_consultations.sql
+stg_clinical_outcomes.sql
+stg_providers.sql
+stg_consultations_fixed.sql
 {{ config(materialized='view') }}
 
 WITH source_data AS (
@@ -86,7 +92,9 @@ sources:
 
 -- Task 2 — Referral Models
 -- 1. int_referrals_classified.sql
-
+intermediate/
+int_consultations_enriched.sql
+int_referrals_classified.sql
 {{ config(materialized='view') }}
 
 WITH consultations AS (
@@ -201,12 +209,6 @@ aggregated AS (
 )
 
 SELECT * FROM aggregated;
-
-"""Metric Definition (include below SQL)
-Doctor-issued referrals are treated as the primary clinical metric, ensuring consistency across months.
-Patient-requested referrals are reported separately, as they reflect patient intent rather than clinical decision-making.
-Cases classified as “both” are included in both counts, since they represent agreement between patient and clinician; excluding them would undercount each dimension.
-For comparability, historical reporting should rely on doctor_referral_rate, while patient_requested_rate is introduced as a new supporting metric from April onward."""
 
 -- Task 3 — schema_tests.yml
 version: 2
