@@ -1,11 +1,4 @@
 -- Task 1 — stg_consultations_fixed.sql (timezone fix)
-models/
-staging/
-stg_consultation_requests.sql
-stg_consultations.sql
-stg_clinical_outcomes.sql
-stg_providers.sql
-stg_consultations_fixed.sql
 {{ config(materialized='view') }}
 
 WITH source_data AS (
@@ -92,9 +85,7 @@ sources:
 
 -- Task 2 — Referral Models
 -- 1. int_referrals_classified.sql
-intermediate/
-int_consultations_enriched.sql
-int_referrals_classified.sql
+
 {{ config(materialized='view') }}
 
 WITH consultations AS (
