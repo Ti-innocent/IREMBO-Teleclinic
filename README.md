@@ -1,4 +1,4 @@
-# IREMBO-TeleClinic assignement for Analytics Engineer
+# IREMBO-TeleClinic Assignement
 
 This repository contains the data modeling and diagnostic fix for the Irembo TeleClinic platform. The goal of this project was to resolve two major reporting anomalies in the April dashboard: an artificial spike in referral rates and a timezone-related bug affecting patient wait times.
 
