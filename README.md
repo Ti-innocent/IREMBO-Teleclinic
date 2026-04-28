@@ -35,7 +35,7 @@ To prevent future errors in reporting, we can apply the following testing strate
   ##### staging/        Data cleaning & Time Zone normalization
   ##### intermediate/   Referral classification
   ##### marts/          Final reporting-ready metrics
-### tests/              Custom anomaly detection & data quality
+#### tests/              Custom anomaly detection & data quality
 
 ## AI Tool Usage
 
