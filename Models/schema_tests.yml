@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: stg_consultations_fixed
+    description: "Cleaned consultations with tz correction"
+    columns:
+      - name: consultation_id
+        description: "PK — one row per consultation"
+        tests:
+          - unique
+          - not_null
+      - name: wait_time_minutes
+        description: "The time difference in minutes between consultation creation and start time. Ensures no negative wait times after timezone correction."
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - dbt_utils.expression_is_true:
+              expression: "wait_time_minutes >= 0"
+              config:
+                severity: error
+
+  - name: int_referrals_classified
+    description: "Intermediate model classifying each consultation by referral type"
+    columns:
+      - name: referral_classification
+        description: "Classification of referral source (doctor, patient, both, or none). Ensures valid categorical values."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['doctor_referral', 'patient_requested_only', 'both', 'no_referral']
+
+  - name: mart_referral_rate_monthly
+    description: "Monthly summary of referral rates"
+    columns:
+      - name: doctor_issued_referral_rate_pct
+        description: "The percentage of completed consultations that resulted in a doctor-issued referral. Monitors for unexpected spikes."
+        tests:
+          - assert_referral_rate_spike_month_over_month:
+              config:
+                severity: warn
