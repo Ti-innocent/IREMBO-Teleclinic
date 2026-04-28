@@ -22,6 +22,8 @@ The solution is built using a three-layer dimensional modeling approach:
 -   **Source Schema:** `consultation_started_at` may contain mixed timezone formats (UTC and UTC+2 string offsets)..
 -   **Clinical Validity:** A "true" clinical referral is defined as any case where a doctor issued a referral, regardless of whether the patient requested it beforehand.
 -   **Wait Time limit/Threshold:** Any wait time exceeding 1,440 minutes (24 hours) is considered a data outlier or a system error and is set to `NULL` to avoid its impact on the average.
+- referral_issued and referral_requested are boolean (0/1).
+- one row per consultation_id in staging models to avoid double count.
 
 ## Data Quality & Testing
 
