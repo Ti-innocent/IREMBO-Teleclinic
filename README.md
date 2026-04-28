@@ -31,11 +31,11 @@ To prevent future errors in reporting, we can apply the following testing strate
 -   **Anomaly Detection:** A custom singular test (`assert_referral_rate_spike_month_over_month.sql`) that fails if the clinical referral rate shifts by more than 5 percentage points month-over-month. This would have caught the April anomaly before it reached the dashboard.
 
 ### Folder Structure
-models/
-  staging/        # Data cleaning & Time Zone normalization
-  intermediate/   # Referral classification
-  marts/          # Final reporting-ready metrics
-tests/            # Custom anomaly detection & data quality
+#### models/
+  ##### staging/        Data cleaning & Time Zone normalization
+  ##### intermediate/   Referral classification
+  ##### marts/          Final reporting-ready metrics
+### tests/              Custom anomaly detection & data quality
 
 ## AI Tool Usage
 
