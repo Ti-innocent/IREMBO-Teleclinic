@@ -5,7 +5,7 @@ This repository contains the data modeling and diagnostic fix for the Irembo Tel
 ## Project Overview
 
 Following a platform update on April 3rd and a mobile app release on April 5th, two primary issues were identified:
-1.  **Metric Inflation:** The monthly referral rate jumped from 11% to 28%.
+1.  **Metric Changes:** The monthly referral rate jumped from 11% to 28%.
 2.  **Data Integrity/quality:** Average wait times dropped from 38 minutes to 4 minutes due to negative time calculations.
 
 This project implements a robust dbt-based transformation layer to normalize these signals and provide the Ministry of Health with accurate, comparable clinical metrics.
@@ -24,22 +24,6 @@ The solution is built using a three-layer dimensional modeling approach:
 -   **Wait Time limit/Threshold:** Any wait time exceeding 1,440 minutes (24 hours) is considered a data outlier or a system error and is set to `NULL` to avoid its impact on the average.
 - referral_issued and referral_requested are boolean (0/1).
 - one row per consultation_id in staging models to avoid double count.
-
-## Data Quality & Testing
-
-To prevent future errors in reporting, we can apply the following testing strategy:
--   **Integrity Tests:** Standard `unique` and `not_null` constraints on primary keys.
--   **Wait Time Assertion:** A custom test in `stg_consultations_fixed` ensures no negative wait times are passed to the reporting layer.
--   **Anomaly Detection:** A custom singular test (`assert_referral_rate_spike_month_over_month.sql`) that fails if the clinical referral rate shifts by more than 5 percentage points month-over-month. This would have caught the April anomaly before it reached the dashboard.
-
-### Folder Structure
-#### models/
-  ##### staging/        Data cleaning & Time Zone normalization
-  ##### intermediate/   Referral classification
-  ##### marts/          Final reporting-ready metrics
-#### tests/              Custom anomaly detection & data quality
-
-## AI Tool Usage
 
 AI tools were used to assist in structuring dbt models and improve SQL clarity
 
